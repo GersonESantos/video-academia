@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Overlay Cronômetro</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* Tela cheia com fundo completamente transparente */
+      body {
+        width: 100vw;
+        height: 100vh;
+        background-color: transparent;
+        overflow: hidden;
+        font-family:
+          "Segoe UI",
+          Roboto,
+          -apple-system,
+          sans-serif;
+      }
+
+      /* Caixa fixada no canto superior direito */
+      .timer-container {
+        position: absolute;
+        top: 28px;
+        right: 36px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: rgba(15, 23, 42, 0.65); /* Fundo escuro translúcido */
+        backdrop-filter: blur(8px);
+        padding: 10px 22px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      }
+
+      /* Ponto indicador de gravação/ativo */
+      .rec-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: #ef4444;
+        animation: pulse 1.5s infinite;
+      }
+
+      /* Tipografia monoespaçada para os dígitos não saltarem */
+      .timer-display {
+        font-size: 32px;
+        font-weight: 700;
+        color: #f8fafc;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: 1.5px;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.4;
+          transform: scale(0.85);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="timer-container">
+      <div class="rec-dot"></div>
+      <div class="timer-display" id="display">00:00:00</div>
+    </div>
+
+    <script>
+      let seconds = 0;
+      const display = document.getElementById("display");
+
+      function updateTimer() {
+        seconds++;
+
+        const hrs = Math.floor(seconds / 3600);
+        const mins = Math.floor((seconds % 3600) / 60);
+        const secs = seconds % 60;
+
+        const format = (unit) => String(unit).padStart(2, "0");
+
+        display.textContent = `${format(hrs)}:${format(mins)}:${format(secs)}`;
+      }
+
+      // Inicia o cronômetro avançando a cada segundo
+      setInterval(updateTimer, 1000);
+    </script>
+  </body>
+</html>
